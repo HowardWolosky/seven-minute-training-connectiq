@@ -72,6 +72,17 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
 
 class VitalityView extends Ui.View {
 
+	//! vibration when sucessful
+    var vibeSuccess = [
+                        new Attention.VibeProfile(  25, 100 ),
+                        new Attention.VibeProfile(  50, 100 ),
+                        new Attention.VibeProfile(  75, 100 ),
+                        new Attention.VibeProfile( 100, 100 ),
+                        new Attention.VibeProfile(  75, 100 ),
+                        new Attention.VibeProfile(  50, 100 ),
+                        new Attention.VibeProfile(  25, 100 )
+                      ];
+
     //! Stop the recording if necessary
     function stopRecording() {
         if( Toybox has :ActivityRecording ) {
@@ -147,7 +158,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.playTone(Attention.TONE_SUCCESS);
+			        Attention.vibrate(vibeSuccess);
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -161,7 +172,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.playTone(Attention.TONE_SUCCESS);
+			        Attention.vibrate(vibeSuccess);
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -177,7 +188,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 100, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.playTone(Attention.TONE_SUCCESS);
+			        Attention.vibrate(vibeSuccess);
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
