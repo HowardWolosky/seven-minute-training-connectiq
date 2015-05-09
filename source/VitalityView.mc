@@ -23,6 +23,7 @@ var count1 = 0;
 var count2 = 0;
 var count3 = 0;
 var heartRate = 0;
+var successAttention = false;                 
 
 
 class BaseInputDelegate extends Ui.BehaviorDelegate
@@ -63,6 +64,7 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
 		        count2 = 0;
 		        count3 = 0;
 		        heartRate = 0;
+		        successAttention = false;
 				//! Update
                 Ui.requestUpdate();
             }
@@ -80,7 +82,7 @@ class VitalityView extends Ui.View {
                         new Attention.VibeProfile( 100, 100 ),
                         new Attention.VibeProfile(  75, 100 ),
                         new Attention.VibeProfile(  50, 100 ),
-                        new Attention.VibeProfile(  25, 100 )
+                        new Attention.VibeProfile(  0, 1 )
                       ];
 
     //! Stop the recording if necessary
@@ -99,6 +101,7 @@ class VitalityView extends Ui.View {
 		        count2 = 0;
 		        count3 = 0;
 		        heartRate = 0;
+		        successAttention = false;
 				//! request update
                 Ui.requestUpdate();
             }
@@ -158,7 +161,11 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.vibrate(vibeSuccess);
+			        if( successAttention == false ) {
+			        	Attention.vibrate(vibeSuccess);
+			        	Attention.playTone(Attention.TONE_SUCCESS);
+			        	successAttention = true;
+			        }
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -167,12 +174,16 @@ class VitalityView extends Ui.View {
 					}
 				}
 				
-				//! Medium heart rate. Goal is over 32 mins.
+				//! Medium heart rate. Goal is over 32 mins (1920 sec).
 				if (count1 > 1920) {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.vibrate(vibeSuccess);
+			        if( successAttention == false ) {
+			        	Attention.vibrate(vibeSuccess);
+			        	Attention.playTone(Attention.TONE_SUCCESS);
+			        	successAttention = true;
+			        }
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -188,7 +199,11 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 100, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        Attention.vibrate(vibeSuccess);
+			        if( successAttention == false ) {
+			        	Attention.vibrate(vibeSuccess);
+			        	Attention.playTone(Attention.TONE_SUCCESS);
+			        	successAttention = true;
+			        }
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
