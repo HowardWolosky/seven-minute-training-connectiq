@@ -145,7 +145,7 @@ class VitalityView extends Ui.View {
             }
             else if( ( session != null ) && session.isRecording() ) {
                 dc.setColor(Gfx.COLOR_RED, Gfx.COLOR_BLACK);
-                dc.drawText(20, 10, Gfx.FONT_MEDIUM, "Press key to STOP -->", Gfx.TEXT_JUSTIFY_LEFT);
+                dc.drawText(10, 10, Gfx.FONT_MEDIUM, "Press key to STOP -->", Gfx.TEXT_JUSTIFY_LEFT);
 
                 dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 				dc.drawText(20, 40, Gfx.FONT_SMALL, "HR: " + heartRate, Gfx.TEXT_JUSTIFY_LEFT);
@@ -206,6 +206,7 @@ class VitalityView extends Ui.View {
 				} else {
 					clockMins = Sys.getClockTime().min.toString();
 				}			
+                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 				dc.drawText(20, 120, Gfx.FONT_SMALL, "Clock: " + Sys.getClockTime().hour + ":" + clockMins, Gfx.TEXT_JUSTIFY_LEFT);
 
 
