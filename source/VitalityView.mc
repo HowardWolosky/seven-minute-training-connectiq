@@ -47,7 +47,7 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
                 session.start();
                 timer1 = new Timer.Timer();
 		        timer1.start( method(:callback1), 1000, true );
-		        Attention.playTone(Attention.TONE_START);
+		        doStartNotification();
                 Ui.requestUpdate();
             }
             else if( ( session != null ) && session.isRecording() ) {
@@ -56,7 +56,7 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
                 session.stop();
 				//! Save the session data
                 session.save();
-		        Attention.playTone(Attention.TONE_STOP);
+				doStoptNotification();
 				//! clean up the session and timers and counters
                 session = null;
 		        timer1 = null;
@@ -73,17 +73,6 @@ class BaseInputDelegate extends Ui.BehaviorDelegate
 }
 
 class VitalityView extends Ui.View {
-
-	//! vibration when sucessful
-    var vibeSuccess = [
-                        new Attention.VibeProfile(  25, 100 ),
-                        new Attention.VibeProfile(  50, 100 ),
-                        new Attention.VibeProfile(  75, 100 ),
-                        new Attention.VibeProfile( 100, 100 ),
-                        new Attention.VibeProfile(  75, 100 ),
-                        new Attention.VibeProfile(  50, 100 ),
-                        new Attention.VibeProfile(  0, 1 )
-                      ];
 
     //! Stop the recording if necessary
     function stopRecording() {
@@ -161,11 +150,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        if( successAttention == false ) {
-			        	Attention.vibrate(vibeSuccess);
-			        	Attention.playTone(Attention.TONE_SUCCESS);
-			        	successAttention = true;
-			        }
+					doSuccessNotification();
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 	                dc.drawText(20, 60, Gfx.FONT_SMALL, "HR > 116 (60%): " + (count2 / 60) +":" + ( count2 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -179,11 +164,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 120, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        if( successAttention == false ) {
-			        	Attention.vibrate(vibeSuccess);
-			        	Attention.playTone(Attention.TONE_SUCCESS);
-			        	successAttention = true;
-			        }
+					doSuccessNotification();
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(20, 80, Gfx.FONT_SMALL, "HR > 134 (70%): " + (count1 / 60) +":" + ( count1 % 60 ) + " mins", Gfx.TEXT_JUSTIFY_LEFT);
@@ -199,11 +180,7 @@ class VitalityView extends Ui.View {
 	                dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
 					dc.drawText(110, 100, Gfx.FONT_SMALL, "Points: 10", Gfx.TEXT_JUSTIFY_LEFT);
-			        if( successAttention == false ) {
-			        	Attention.vibrate(vibeSuccess);
-			        	Attention.playTone(Attention.TONE_SUCCESS);
-			        	successAttention = true;
-			        }
+					doSuccessNotification();
 				} else {
 	                dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 					dc.drawText(110, 40, Gfx.FONT_SMALL, "Steps: " + curSteps, Gfx.TEXT_JUSTIFY_LEFT);
@@ -234,6 +211,47 @@ class VitalityView extends Ui.View {
             dc.drawText(25, 50, Gfx.FONT_MEDIUM, "have FIT Support", Gfx.TEXT_JUSTIFY_LEFT);
         }
     }
+
+	//! Notify about starting to record the activity
+	function doStartNotification() {	
+		//! vibration when sucessful
+	    var vibeSuccess = [ new Attention.VibeProfile(  50, 100 ) ];
+        if( Toybox has :Attention ) {
+    		Attention.vibrate(vibeSuccess);
+    	}
+	}
+
+	//! Notify about stopping to record the activity
+	function doStopNotification() {	
+		//! vibration when sucessful
+	    var vibeSuccess = [ new Attention.VibeProfile(  50, 100 ) ];
+        if( Toybox has :Attention ) {
+    		Attention.vibrate(vibeSuccess);
+    	}
+	}
+
+	//! Notify about meeting the goal.
+	function doSuccessNotification() {	
+		//! vibration when sucessful
+	    var vibeSuccess = [
+	                        new Attention.VibeProfile(  25, 100 ),
+	                        new Attention.VibeProfile(  50, 100 ),
+	                        new Attention.VibeProfile(  75, 100 ),
+	                        new Attention.VibeProfile( 100, 100 ),
+	                        new Attention.VibeProfile(  75, 100 ),
+	                        new Attention.VibeProfile(  50, 100 ),
+	                        new Attention.VibeProfile(  0, 1 )
+	                      ];
+	
+        if( successAttention == false ) {
+			//! Do it only if supported
+	        if( Toybox has :Attention ) {
+        		Attention.vibrate(vibeSuccess);
+	        	//!Attention.playTone(Attention.TONE_SUCCESS); //! Tone does not work in Vivoactive.
+        	}
+        	successAttention = true;
+        }	
+	}
 
     function onSnsr(sensor_info) {
         if( sensor_info.heartRate != null ) {
