@@ -1,8 +1,6 @@
 using Toybox.Application as App;
 
-class VitalityApp extends App.AppBase {
-
-    var vitalityView;
+class SevenMinuteTrainingApp extends App.AppBase {
 
     //! onStart() is called on application start up
     function onStart() {
@@ -10,13 +8,11 @@ class VitalityApp extends App.AppBase {
 
     //! onStop() is called when your application is exiting
     function onStop() {
-        vitalityView.stopRecording();
     }
 
     //! Return the initial view of your application here
     function getInitialView() {
-        vitalityView = new VitalityView();
-        return [ vitalityView, new BaseInputDelegate() ];
+        return [ new SevenMinuteTrainingView(), new BaseInputDelegate() ];
     }
 
 }
